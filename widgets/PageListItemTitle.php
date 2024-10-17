@@ -90,9 +90,17 @@ class PageListItemTitle extends Widget
             $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $this->page->childrenCount, 'count' => $this->page->childrenCount]);
         }
 
+        // Get the current module
+        $module = Yii::$app->getModule('wiki');        
+        // Get the current user
+        $user = Yii::$app->user->identity;
+        // Retrieve the current numbering state for this user from the settings
+        $numberingEnabled = $module->settings->contentContainer($user)->get('overviewNumbering', 'disabled') === 'enabled';
+        
+        // Generate numbering for categories and pages
         return $this->render('pageListItemTitle', [
             'page' => $this->page,
-            'title' => $this->title,
+            'title' => $numberingEnabled ? ($this->generateNumbering($this->level) . ' ' . $this->title) : $this->title,
             'titleIcon' => $this->getVisibilityIcon(),
             'titleInfo' => $this->titleInfo,
             'url' => $this->page ? $this->page->getUrl() : null,
@@ -102,6 +110,26 @@ class PageListItemTitle extends Widget
             'options' => $this->getOptions(),
             'level' => $this->level,
         ]);
+    }
+    
+    public function generateNumbering($level)
+    {
+        static $numbering = [];
+
+        // Increment numbering for the current level
+        if (!isset($numbering[$level])) {
+            $numbering[$level] = 1;
+        } else {
+            $numbering[$level]++;
+        }
+
+        // Reset numbering for deeper levels
+        for ($i = $level + 1; $i < count($numbering); $i++) {
+            $numbering[$i] = 0;
+        }
+
+        // Build the numbering string (e.g., "1", "2.1", "2.2")
+        return implode('.', array_filter($numbering));
     }
 
     public function getOptions(): array

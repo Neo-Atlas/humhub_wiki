@@ -18,11 +18,24 @@ use humhub\widgets\TimeAgo;
 if (empty($buttons)) {
     $buttons = WikiMenu::LINK_EDIT;
 }
+
+// Get the current module
+$module = Yii::$app->getModule('wiki');                      
+// Get the current user
+$user = Yii::$app->user->identity;
+// Retrieve the current numbering state for this user from the settings
+$numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumbering', 'disabled') === 'enabled';
 ?>
 
 <div class="wiki-headline">
     <div class="wiki-headline-top">
         <?= WikiPath::widget(['page' => $page]) ?>
+        <div class="toggle-numbering">
+            <!-- Add toggle switch with URL-based parameter for numbering-->
+            <a href="<?= Url::current(['toggle-numbering']) ?>" class="btn-sm btn btn-info">
+                <?= $numberingEnabled ? Yii::t('WikiModule.base', 'Disable Numbering') : Yii::t('WikiModule.base', 'Enable Numbering') ?>
+            </a>
+        </div>
         <?= WikiMenu::widget([
             'object' => $page,
             'buttons' => $buttons,
