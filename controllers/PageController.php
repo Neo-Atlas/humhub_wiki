@@ -439,5 +439,5 @@ class PageController extends BaseController
         ];
     }
 
-    
+
 }
