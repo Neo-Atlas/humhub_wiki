@@ -21,16 +21,15 @@ class EditingButtonCest
         
         $I->amOnSpace($space->guid, '/wiki/overview/list-categories');
 
-        $I->seeElement('a.toggle-editing');
-        $I->see('Enable wiki tree editing', 'a.toggle-editing');
+        $I->see('Enable wiki tree editing');
         $I->dontSeeElement('.drag-icon');
 
-        $I->click('a.toggle-editing');
-        $I->see('Disable wiki tree editing', 'a.toggle-editing');
+        $I->click('Enable wiki tree editing');
+        $I->see('Disable wiki tree editing');
         $I->seeElement('.drag-icon');
 
-        $I->click('a.toggle-editing');
-        $I->see('Enable wiki tree editing', 'a.toggle-editing');
+        $I->click('Disable wiki tree editing');
+        $I->see('Enable wiki tree editing');
         $I->dontSeeElement('.drag-icon');
     }
 
@@ -42,7 +41,9 @@ class EditingButtonCest
         $category = $I->createWiki($space, 'Test Wiki Page', 'Test Wiki Page content');
 
         $I->amOnSpace($space->guid, '/wiki/overview/list-categories');
-        $I->dontSeeElement('a.toggle-editing');
+        $I->dontSee('Enable wiki tree editing');
+        $I->dontSee('Disable wiki tree editing');
+
     }
 
     public function testEditingButtonVisibilityForModerator(FunctionalTester $I)
@@ -53,6 +54,6 @@ class EditingButtonCest
         $category = $I->createWiki($space, 'Test Wiki Page', 'Test Wiki Page content');
 
         $I->amOnSpace($space->guid, '/wiki/overview/list-categories');
-        $I->seeElement('a.toggle-editing');
+        $I->see('Enable wiki tree editing');
     }
 }
