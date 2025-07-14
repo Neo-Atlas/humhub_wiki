@@ -61,7 +61,7 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
                     'author' => '<code>{{author}}</code>',
                 ]) ?>
             </div>
-            <table class="table table-bordered table-sm" id="placeholder-table">
+            <table class="table table-bordered table-sm placeholder" id="placeholder-table">
                 <colgroup>
                     <col style="width: 15%;">
                     <col style="width: 45%;">

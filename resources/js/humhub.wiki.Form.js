@@ -399,13 +399,13 @@ humhub.module('wiki.Form', function(module, require, $) {
         normal.forEach((ph, index) => {
             $tbody.append(`
                 <tr data-index="${index}" data-type="normal">
-                    <td class="text-center placeholder-column">${escapeHtml(ph.key)}</td>
-                    <td class="text-start placeholder-column">
+                    <td class="text-center">${escapeHtml(ph.key)}</td>
+                    <td class="text-start">
                         <span class="placeholder-description">${escapeHtml(ph.description)}</span>
                     </td>
-                    <td class="text-center placeholder-column">${escapeHtml(ph.default)}</td>
-                    <td class="text-center placeholder-column">${translation.normal}</td>
-                    <td class="text-center placeholder-column">
+                    <td class="text-center">${escapeHtml(ph.default)}</td>
+                    <td class="text-center">${translation.normal}</td>
+                    <td class="text-center">
                         <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
                     </td>
                 </tr>
@@ -415,13 +415,13 @@ humhub.module('wiki.Form', function(module, require, $) {
         appendable.forEach((ph, index) => {
             $tbody.append(`
                 <tr data-index="${index}" data-type="appendable">
-                    <td class="text-center placeholder-column">${escapeHtml(ph.key)}</td>
-                    <td class="text-start placeholder-column">
+                    <td class="text-center">${escapeHtml(ph.key)}</td>
+                    <td class="text-start">
                         <span class="placeholder-description">${escapeHtml(ph.description)}</span>
                     </td>
-                    <td class="text-center placeholder-column">${escapeHtml(ph.default)}</td>
-                    <td class="text-center placeholder-column">${translation.appendable}</td>
-                    <td class="text-center placeholder-column">
+                    <td class="text-center">${escapeHtml(ph.default)}</td>
+                    <td class="text-center">${translation.appendable}</td>
+                    <td class="text-center">
                         <button type="button" class="btn btn-sm btn-danger remove-placeholder">Delete</button>
                     </td>
                 </tr>
