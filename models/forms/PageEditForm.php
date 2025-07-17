@@ -135,7 +135,7 @@ class PageEditForm extends Model
         $editFields = ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting', 'hidden', 'isAppendable', 'appendableContent', 'appendableContentPlaceholder'];
 
         $scenarios = parent::scenarios();
-        $scenarios[WikiPage::SCENARIO_CREATE] = ['topics'];
+        $scenarios[WikiPage::SCENARIO_CREATE] = ['topics','isAppendable', 'appendableContent', 'appendableContentPlaceholder'];
         $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? array_merge(['topics'], $editFields) : $editFields;
         $scenarios[WikiPage::SCENARIO_ADMINISTER] = array_merge(['topics', 'isPublic'], $editFields);
 
