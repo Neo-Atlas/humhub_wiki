@@ -459,8 +459,8 @@ humhub.module('wiki.Form', function(module, require, $) {
     }
 
     function pollEditingStatus() {
-        const $container = $('[data-url-editing-status]');
-        const url = $container.data('url-editing-status');
+        const $container = $('[data-append-url-editing-status]');
+        const url = $container.data('append-url-editing-status');
         if (!url) return;
         client.get(url).then(function (response) {
             if (response.success && response.isEditing) {
