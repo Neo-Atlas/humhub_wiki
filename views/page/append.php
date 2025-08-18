@@ -32,7 +32,7 @@ Assets::register($this);
                     'data-ui-init' => '1'],
                 ]); ?>
         
-        <div id="append-editor" data-url-editing-status="<?= Html::encode(Url::toWikiEditingStatus($appendForm->page)) ?>" data-url-append-content = <?=Url::toWikiGetAppendContent($appendForm->page);?> >
+        <div id="append-editor" data-append-url-editing-status="<?= Html::encode(Url::toWikiEditingStatus($appendForm->page)) ?>" data-url-append-content = <?=Url::toWikiGetAppendContent($appendForm->page);?> >
             <?= $form->field($appendForm->page, 'title')
                         ->textInput([
                             'disabled' => true,
