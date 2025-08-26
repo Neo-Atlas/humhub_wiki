@@ -48,7 +48,9 @@ class TemplateCrudCest
         $I->see('First Template');
         $I->click('a.edit-template');
         $I->fillField('WikiTemplate[title]', 'Edited First Template');
-        $I->fillField('WikiTemplate[content]', 'Content of First Template');
+        $content ='This is  test content
+        it is edited';
+        $I->fillField('WikiTemplate[content]', $content);
         $I->click('Save');
         $I->see('Manage Templates');
         $I->see('Edited First Template');
@@ -69,7 +71,7 @@ class TemplateCrudCest
         $I->seeResponseCodeIs(200);
 
         $I->seeInSource('"success":true');  
-        $I->seeInSource('"content":"Content of First Template"');
+        $I->seeInSource('"content":"This is  test content\n        it is edited"');
 
     }
 
