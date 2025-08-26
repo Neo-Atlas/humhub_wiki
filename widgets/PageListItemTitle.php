@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2021 HumHub GmbH & Co. KG
@@ -8,18 +9,15 @@
 namespace humhub\modules\wiki\widgets;
 
 use humhub\components\Widget;
-use humhub\modules\content\models\Content;
 use humhub\modules\ui\icon\widgets\Icon;
-use humhub\modules\wiki\helpers\Helper;
-use humhub\modules\wiki\models\WikiPage;
+use humhub\modules\wiki\models\HierarchyItem;
+use humhub\modules\wiki\services\HierarchyListService;
 use Yii;
 
 class PageListItemTitle extends Widget
 {
-    /**
-     * @var WikiPage
-     */
-    public $page = null;
+    public HierarchyListService|null $service = null;
+    public HierarchyItem|null $item = null;
 
     /**
      * @var string
@@ -73,11 +71,11 @@ class PageListItemTitle extends Widget
     {
         $icon = $this->iconCategoryOpened;
 
-        if ($this->page) {
-            $this->title = $this->page->title;
-            if ($this->page->isCategory) {
+        if ($this->item) {
+            $this->title = $this->item->title;
+            if ($this->item->isCategory) {
                 $displaySubPages = $this->maxLevel === null || $this->level < $this->maxLevel;
-                $icon = !$displaySubPages || $this->page->isFolded() ? $this->iconCategoryFolded : $this->iconCategoryOpened;
+                $icon = !$displaySubPages || $this->item->isFolded ? $this->iconCategoryFolded : $this->iconCategoryOpened;
             } else {
                 $icon = $this->iconPage;
             }
@@ -85,9 +83,10 @@ class PageListItemTitle extends Widget
 
         if ($this->titleInfo === null &&
             $this->showNumFoldedSubpages &&
-            ($this->maxLevel !== null && $this->level === $this->maxLevel) &&
-            $this->page->childrenCount) {
-            $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $this->page->childrenCount, 'count' => $this->page->childrenCount]);
+            ($this->maxLevel !== null && $this->level === $this->maxLevel)) {
+            if ($childrenCount = $this->service->getItemChildrenCount($this->item->id)) {
+                $this->titleInfo = Yii::t('WikiModule.base', '({n,plural,=1{+1 subpage}other{+{count} subpages}})', ['n' => $childrenCount, 'count' => $childrenCount]);
+            }
         }
 
         $module = Yii::$app->getModule('wiki');        
@@ -96,11 +95,12 @@ class PageListItemTitle extends Widget
         $editingEnabled = $module->settings->contentContainer($user)->get('wikiTreeEditingEnabled', FALSE);
         
         return $this->render('pageListItemTitle', [
-            'page' => $this->page,
+            'service' => $this->service,
+            'item' => $this->item,
             'title' => $numberingEnabled ? ($this->generateNumbering($this->level) . ' ' . $this->title) : $this->title,
             'titleIcon' => $this->getVisibilityIcon(),
             'titleInfo' => $this->titleInfo,
-            'url' => $this->page ? $this->page->getUrl() : null,
+            'url' => $this->service->getWikiUrl($this->item),
             'icon' => $this->icon ?? $icon,
             'showDrag' => $this->showDrag and $editingEnabled,
             'showAddPage' => $this->showAddPage,
@@ -129,11 +129,11 @@ class PageListItemTitle extends Widget
     public function getOptions(): array
     {
         $options = [
-            'class' => 'page-title' . ($this->page && $this->page->isCategory ? ' page-is-category' : ''),
+            'class' => 'page-title' . ($this->item && $this->item->isCategory ? ' page-is-category' : ''),
             'style' => 'padding-left:' . (12 + $this->level * $this->levelIndent) . 'px',
         ];
 
-        if (Helper::isCurrentPage($this->page)) {
+        if ($this->service->isCurrentItem($this->item)) {
             $options['class'] .= ' page-current';
         }
 
@@ -142,17 +142,9 @@ class PageListItemTitle extends Widget
 
     public function getVisibilityIcon(): ?Icon
     {
-        if (!$this->page instanceof WikiPage) {
-            return null;
-        }
+        $icon = $this->service->getItemVisibilityIconName($this->item);
 
-        $content = $this->page->content;
-        if ($content->visibility === $content->container->getDefaultContentVisibility()) {
-            return null;
-        }
-
-        return Icon::get($content->visibility === Content::VISIBILITY_PUBLIC ? 'globe' : 'lock')
-            ->class('page-title-icon-visibility');
+        return $icon ? Icon::get($icon)->class('page-title-icon-visibility') : null;
     }
 
 }
