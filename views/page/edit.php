@@ -17,7 +17,6 @@ use humhub\modules\wiki\widgets\WikiPath;
 use humhub\widgets\Button;
 use humhub\modules\wiki\widgets\TemplateSelectModal;
 use humhub\widgets\Modal;
-use humhub\modules\wiki\helpers\Url;
 use humhub\modules\topic\widgets\TopicPicker;
 
 /* @var $this View */
@@ -60,7 +59,7 @@ Assets::register($this);
                     <?= WikiPath::widget(['page' => $model->page]) ?>
                     <div class="Button-right-align">
                         <?php if ($templateCount > 0) :?>
-                            <?= Button::save(Yii::t('WikiModule.base','Add Template'))->icon('fa-plus')->action('insertTemplate')->sm()->loader(false)->cssClass('toggle-numbering') ?>
+                            <?= Button::save(Yii::t('WikiModule.base','Add Template'))->icon('fa-plus')->action('insertTemplate')->loader(false)->cssClass('toggle-numbering') ?>
                         <?php endif;?>
                     </div>
                     <?php if (!$requireConfirmation) : ?>
