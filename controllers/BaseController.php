@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2018 HumHub GmbH & Co. KG
@@ -62,9 +63,9 @@ abstract class BaseController extends ContentContainerController
      * @return bool
      * @throws \yii\base\Exception
      */
-    protected function hasPages()
+    protected function hasPages(): bool
     {
-        return (WikiPage::find()->contentContainer($this->contentContainer)->count() > 0);
+        return WikiPage::find()->contentContainer($this->contentContainer)->exists();
     }
 
     /**

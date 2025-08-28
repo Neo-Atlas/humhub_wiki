@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2018 HumHub GmbH & Co. KG
@@ -160,7 +161,7 @@ abstract class ItemDrop extends Model
      */
     protected function getModel()
     {
-        if(!$this->model) {
+        if (!$this->model) {
             $this->model = $this->loadModel();
         }
 
