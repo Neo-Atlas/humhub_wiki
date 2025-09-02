@@ -65,6 +65,7 @@ if ($isEnabledDiffTool) {
                                 </h4>
                                 <div class="wiki-page-list-row-details">
                                     <?= TimeAgo::widget(['timestamp' => $revision->revision]) ?>
+                                    <?= $revision->revision_label == NULL ? "" : "Revision" . " ". $revision->revision_label?>
                                     <?php if ($revision->author): ?>
                                         &middot; <?= \humhub\libs\Html::containerLink($revision->author) ?>
                                     <?php endif; ?>

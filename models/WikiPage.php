@@ -339,6 +339,7 @@ class WikiPage extends ContentActiveRecord implements Searchable
         $lastRevision = WikiPageRevision::find()->where(array('is_latest' => 1, 'wiki_page_id' => $this->id))->one();
         if ($lastRevision !== null) {
             $rev->content = $lastRevision->content;
+            $rev->revision_label = $lastRevision->revision_label;
         }
 
         if (!$this->isNewRecord) {

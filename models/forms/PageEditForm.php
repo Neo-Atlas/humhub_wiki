@@ -70,6 +70,10 @@ class PageEditForm extends Model
 
     public $appendableContentPlaceholder;
 
+    public $revisionLabelEnabled = false;
+
+    public $saveAsNewRevision = false;
+
     /**
      * @return array
      */
@@ -78,7 +82,7 @@ class PageEditForm extends Model
         return [
             [['topics', 'appendableContent', 'appendableContentPlaceholder'], 'safe'],
             ['isAppendable', 'default', 'value' => 0],
-            [['isPublic', 'confirmOverwriting', 'backOverwriting', 'hidden'], 'boolean'],
+            [['isPublic', 'confirmOverwriting', 'backOverwriting', 'hidden','revisionLabelEnabled', 'saveAsNewRevision'], 'boolean'],
             ['latestRevisionNumber', 'validateLatestRevisionNumber'],
         ];
     }
@@ -132,12 +136,12 @@ class PageEditForm extends Model
      */
     public function scenarios()
     {
-        $editFields = ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting', 'hidden', 'isAppendable', 'appendableContent', 'appendableContentPlaceholder'];
+        $editFields = ['latestRevisionNumber', 'confirmOverwriting', 'backOverwriting', 'hidden', 'isAppendable', 'appendableContent', 'appendableContentPlaceholder', 'saveAsNewRevision'];
 
         $scenarios = parent::scenarios();
-        $scenarios[WikiPage::SCENARIO_CREATE] = ['topics','isAppendable', 'appendableContent', 'appendableContentPlaceholder'];
+        $scenarios[WikiPage::SCENARIO_CREATE] = ['topics','isAppendable', 'appendableContent', 'appendableContentPlaceholder', 'revisionLabelEnabled'];
         $scenarios[WikiPage::SCENARIO_EDIT] =  $this->page->isOwner() ? array_merge(['topics'], $editFields) : $editFields;
-        $scenarios[WikiPage::SCENARIO_ADMINISTER] = array_merge(['topics', 'isPublic'], $editFields);
+        $scenarios[WikiPage::SCENARIO_ADMINISTER] = array_merge(['topics', 'isPublic','revisionLabelEnabled'], $editFields);
 
         return $scenarios;
     }
@@ -167,6 +171,7 @@ class PageEditForm extends Model
         if(!$this->page) {
             $this->page = new WikiPage($this->container, ['title' => $title]);
             $this->setScenario(WikiPage::SCENARIO_CREATE);
+            $this->revisionLabelEnabled = true;
         } else {
             $this->setScenario(WikiPage::SCENARIO_EDIT);
             $this->topics = $this->page->content->getTags(Topic::class)->all();
@@ -191,6 +196,9 @@ class PageEditForm extends Model
         $this->isAppendable = $this->page->is_appendable;
         $this->appendableContent = $this->page->appendable_content;
         $this->appendableContentPlaceholder = $this->page->appendable_content_placeholder;
+        if( $this->revision->revision_label !== null) {
+                $this->revisionLabelEnabled = true;
+        }
 
         return $this;
     }
@@ -262,7 +270,11 @@ class PageEditForm extends Model
         return WikiPage::getDb()->transaction(function ($db) {
             if ($this->page->save()) {
                 $this->revision->wiki_page_id = $this->page->id;
-
+                if ($this->revisionLabelEnabled) {
+                    $this->incrementRevisionLabel();
+                } else {
+                    $this->revision->revision_label = null;
+                }
                 if ($this->revision->save()) {
                     $this->page->fileManager->attach(Yii::$app->request->post('fileList'));
 
@@ -369,5 +381,14 @@ class PageEditForm extends Model
         $allowed = $scenarios[$model->scenario];
 
         return in_array($field, $allowed);
+    }
+
+    public function incrementRevisionLabel()
+    {
+        if ($this->revision->revision_label === null || $this->revision->revision_label === '') {
+            $this->revision->revision_label = 'A';
+        } else if($this->saveAsNewRevision) {
+            $this->revision->revision_label++;
+        }
     }
 }
