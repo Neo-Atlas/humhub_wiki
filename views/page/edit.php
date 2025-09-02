@@ -141,6 +141,10 @@ Assets::register($this);
                     </div>
                 <?php endif; ?>
 
+                <?= $form->field($model, 'revisionLabelEnabled')->checkbox([
+                    'label' => 'Enable revision label',
+                    'disabled' => $model->isDisabledField('revisionLabelEnabled')]); ?>
+
                 <?= $form->field($model->page, 'is_home')->checkbox([
                     'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
                     'disabled' => $model->isDisabledField('is_home')]); ?>
@@ -167,7 +171,11 @@ Assets::register($this);
 
                 <hr>
 
-                <?= Button::save()->submit() ?>
+                <?php if (!$model->isNewPage()): ?>
+                    <?= $form->field($model, 'saveAsNewRevision')->hiddenInput()->label(false); ?>
+                <?php endif ?>
+                
+                <?= Button::save()->action('wiki.Form.submit') ?>
             </div>
 
             <?php ActiveForm::end(); ?>
