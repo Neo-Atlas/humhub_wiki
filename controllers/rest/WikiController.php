@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://www.humhub.org/
  * @copyright Copyright (c) 2018 HumHub GmbH & Co. KG
@@ -135,7 +136,7 @@ class WikiController extends BaseContentController
             'index' => isset($requestParams['index']) ? $requestParams['index'] : 0,
         ];
         $moveModel = new WikiPageItemDrop(['contentContainer' => $page->content->container]);
-        if($moveModel->load($formParams, '') && $moveModel->save()) {
+        if ($moveModel->load($formParams, '') && $moveModel->save()) {
             return $this->returnSuccess('Wiki page successfully moved!');
         } else {
             Yii::error('Could not move wiki page.', 'api');
@@ -165,7 +166,7 @@ class WikiController extends BaseContentController
         $moveForm = new MoveContentForm(['id' => $page->content->id]);
         $formData['MoveContentForm']['target'][] = $target;
 
-        if($moveForm->load($formData) && $moveForm->save()) {
+        if ($moveForm->load($formData) && $moveForm->save()) {
             return $this->returnSuccess('Wiki page successfully moved!');
         }
 

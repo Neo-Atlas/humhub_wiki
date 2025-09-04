@@ -1,9 +1,30 @@
 Changelog
 =========
 
-2.3.6 (Unreleased)
-----------------------
+2.4.0 (July 11, 2025)
+---------------------
+- Enh #380: Use content ID in the "Custom Pages" extension
+
+2.3.9 (June 30, 2025)
+---------------------
+- Enh #378: Extension for module "Custom Pages"
+
+2.3.8 (May 13, 2025)
+--------------------
+- Fix #374: Make activity "Wiki page edited" configurable
+
+2.3.7 (February 12, 2025)
+-------------------------
+- Enh #358: Replaced the `fa-file-word-o` icon with the `fa-book` icon
+- Fix #361: Fix wiki link added by RichText editor
+- Fix #367: Fix wall entry controls style
+- Enh #365: Update edit page layout
+
+2.3.6 (October 4, 2024)
+-----------------------
 - Fix #348: Collect user data for Legal module
+- Fix #352: Fix "Move content" menu item visibility for anonymous user
+- Fix #355: Optimize sidebar for big data
 
 2.3.5 (August 7, 2024)
 ----------------------
