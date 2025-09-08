@@ -133,4 +133,8 @@ return [
     'Add' => 'Hinzufügen',
     'appendable' => 'anhängbar',
     'normal' => 'normal',
+    '<strong>Do you want to save as a new Revision</strong>' => '<strong>Möchten Sie als neue Revision speichern</strong>',
+    'The revision should be increased in the event of major or far-reaching changes.' => 'Die Revision sollte bei größeren bzw. weitreichenderen Änderungen erhöht werden.',
+    'Enable revision label' => 'Revisionslabel aktivieren',
+    'Confirm' => 'Bestätigen',
 ];

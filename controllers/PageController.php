@@ -317,26 +317,7 @@ class PageController extends BaseController
         $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => "20"]);
         $query->offset($pagination->offset)->limit($pagination->limit);
 
-        if ($page->latestRevision->revision_label == null) {
-            $revisions = $query->all();
-        }
-        else {
-            $allRevisions = WikiPageRevision::find()
-                ->where(['wiki_page_id' => $page->id])
-                ->andWhere(['not', ['revision_label' => null]])
-                ->orderBy(['revision_label' => SORT_ASC, 'revision' => SORT_DESC])
-                ->all();
-
-            $latestLabelRevisions = [];
-            foreach ($allRevisions as $revision) {
-                if (!isset($latestLabelRevisions[$revision->revision_label])) {
-                    $latestLabelRevisions[$revision->revision_label] = $revision;
-                }
-            }
-
-            $revisions = array_values($latestLabelRevisions);
-        }
-        
+        $revisions = $query->all();
 
         return $this->renderSidebarContent('history', [
             'page' => $page,

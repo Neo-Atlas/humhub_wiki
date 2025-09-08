@@ -55,6 +55,23 @@ Assets::register($this);
                 'footer' => false
             ]); ?>
 
+            <?= Modal::widget([
+                'id' => 'revisionLabelModal',
+                'header' => Yii::t('WikiModule.base', '<strong>Do you want to save as a new Revision</strong>'),
+                'body' => '<div id="placeholderFormContainer">
+                    <strong>'.Yii::t('WikiModule.base', 'Tip:').'</strong>
+                    '. Yii::t('WikiModule.base', 'The revision should be increased in the event of major or far-reaching changes.') .'
+                    
+                </div>',
+                'footer' => Button::defaultType(Yii::t('WikiModule.base', 'Cancel'))
+                                ->action('wiki.Form.revisionLabelNoIncrement')
+                                ->loader(false)
+                            .
+                            Button::primary(Yii::t('WikiModule.base', 'Confirm'))
+                                ->action('wiki.Form.revisionLabelIncrement') // You can define this JS action
+                                ->loader(false)
+            ]); ?>
+
             <div class="wiki-headline">
                 <div class="wiki-headline-top">
                     <?= WikiPath::widget(['page' => $model->page]) ?>
@@ -142,7 +159,7 @@ Assets::register($this);
                 <?php endif; ?>
 
                 <?= $form->field($model, 'revisionLabelEnabled')->checkbox([
-                    'label' => 'Enable revision label',
+                    'label' => Yii::t('WikiModule.base', 'Enable revision label'),
                     'disabled' => $model->isDisabledField('revisionLabelEnabled')]); ?>
 
                 <?= $form->field($model->page, 'is_home')->checkbox([
@@ -171,7 +188,7 @@ Assets::register($this);
 
                 <hr>
 
-                <?php if (!$model->isNewPage()): ?>
+                <?php if (!$model->isNewPage() && $model->revisionLabelEnabled): ?>
                     <?= $form->field($model, 'saveAsNewRevision')->hiddenInput()->label(false); ?>
                 <?php endif ?>
                 
