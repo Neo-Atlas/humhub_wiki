@@ -54,7 +54,7 @@ $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberi
     <div class="wiki-content-info">
         <small>
             <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($page->content->createdBy)]) . ', ' ?>
-            <?= $revision->revision_label == NULL ? " " : Yii::t('WikiModule.base', 'Revision') . ' ' . $revision->revision_label . ', ' ?>
+            <?= $revision->revision_label == NULL ? " " : Yii::t('WikiModule.base', '<strong>Revision') . ' ' . $revision->revision_label . '</strong>, ' ?>
             <?= Yii::t('WikiModule.base', 'last update {dateTime}', ['dateTime' => TimeAgo::widget(['timestamp' => $page->content->updated_at])]) ?>
             <?= Link::to('(' . Yii::t('WikiModule.base', 'History') . ')', Url::toWikiHistory($page)) ?>
         </small>

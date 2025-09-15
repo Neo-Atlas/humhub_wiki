@@ -307,6 +307,11 @@ class PageController extends BaseController
             throw new HttpException(404, Yii::t('WikiModule.base', 'Page not found.'));
         }
 
+        $module = Yii::$app->getModule('wiki');        
+        $user = Yii::$app->user->identity;
+        $hideMinorChanges = $module->settings->contentContainer($user)->get('hideMinorChanges', FALSE);
+        
+
         $query = WikiPageRevision::find();
         $query->orderBy('wiki_page_revision.id DESC');
         $query->where(['wiki_page_id' => $page->id]);
@@ -318,6 +323,25 @@ class PageController extends BaseController
         $query->offset($pagination->offset)->limit($pagination->limit);
 
         $revisions = $query->all();
+        if ($page->latestRevision->revision_label == null || $hideMinorChanges == false) {
+            $revisions = $query->all();
+        }
+        else {
+            $allRevisions = WikiPageRevision::find()
+                ->where(['wiki_page_id' => $page->id])
+                ->andWhere(['not', ['revision_label' => null]])
+                ->orderBy(['revision_label' => SORT_DESC, 'revision' => SORT_DESC])
+                ->all();
+
+            $latestLabelRevisions = [];
+            foreach ($allRevisions as $revision) {
+                if (!isset($latestLabelRevisions[$revision->revision_label])) {
+                    $latestLabelRevisions[$revision->revision_label] = $revision;
+                }
+            }
+
+            $revisions = array_values($latestLabelRevisions);
+        }
 
         return $this->renderSidebarContent('history', [
             'page' => $page,
@@ -674,5 +698,21 @@ class PageController extends BaseController
             'placeholders' => $placeholders,
             'user' => ['guid' => $user->guid, 'displayName' => $user->displayName],
         ]);
+    }
+
+    public function actionToggleHideMinorChanges(int $id)
+    {
+        $page = $this->getWikiPage($id);
+        if (!$page) {
+            throw new HttpException(404, 'Wiki page not found!');
+        }
+
+        $module = Yii::$app->getModule('wiki');
+        $user = Yii::$app->user->identity;
+        $hideMinorChanges = $module->settings->contentContainer($user)->get('hideMinorChanges', FALSE);
+
+        $newState = !$hideMinorChanges;
+        $module->settings->contentContainer($user)->set('hideMinorChanges', $newState);
+        return $this->redirect(Url::toWikiHistory($page));
     }
 }

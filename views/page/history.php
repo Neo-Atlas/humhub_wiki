@@ -28,6 +28,10 @@ if ($isEnabledDiffTool) {
         ],
     ]);
 }
+
+$module = Yii::$app->getModule('wiki');    
+$user = Yii::$app->user->identity;
+$hideMinorChanges = $module->settings->contentContainer($user)->get('hideMinorChanges', FALSE);
 ?>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -38,6 +42,9 @@ if ($isEnabledDiffTool) {
             <div class="wiki-headline">
                 <div class="wiki-headline-top">
                     <?= WikiPath::widget(['page' => $page]) ?>
+                    <?php if($page->latestRevision->revision_label != null): ?>
+                        <?= Button::info($hideMinorChanges ? Yii::t('WikiModule.base', 'Show minor changes') : Yii::t('WikiModule.base', 'Hide minor changes'))->sm()->link(Url::current(['toggle-hide-minor-changes']))->cssClass('Button-right-align') ?>
+                    <?php endif; ?>
                     <?= WikiMenu::widget([
                         'object' => $page,
                         'buttons' => WikiMenu::LINK_BACK_TO_PAGE,
@@ -65,7 +72,7 @@ if ($isEnabledDiffTool) {
                                 </h4>
                                 <div class="wiki-page-list-row-details">
                                     <?= TimeAgo::widget(['timestamp' => $revision->revision]) ?>
-                                    <?= $revision->revision_label == NULL ? "" : "Revision" . " ". $revision->revision_label?>
+                                    <?= $revision->revision_label == NULL ? "" : "<strong>Revision" . " ". $revision->revision_label . "</strong>" ?>
                                     <?php if ($revision->author): ?>
                                         &middot; <?= \humhub\libs\Html::containerLink($revision->author) ?>
                                     <?php endif; ?>
@@ -85,7 +92,7 @@ if ($isEnabledDiffTool) {
             </ul>
 
             <?php if ($isEnabledDiffTool) : ?>
-                <?= Button::primary(Yii::t('WikiModule.base', 'Compare changes'))
+                <?= Button::primary(Yii::t('WikiModule.base', 'Compare Versions'))
                     ->action('wiki.History.compare')
                     ->cssClass('wiki-page-history-btn-compare') ?>
             <?php endif; ?>
