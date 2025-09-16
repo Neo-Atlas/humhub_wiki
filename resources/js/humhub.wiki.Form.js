@@ -297,8 +297,8 @@ humhub.module('wiki.Form', function(module, require, $) {
             const dd = String(now.getDate()).padStart(2, '0');
     
             switch (format) {
-                case 'YYYY-DD-MM':
-                    return `${yyyy}-${dd}-${mm}`;
+                case 'DD-MM-YYYY':
+                    return `${dd}-${mm}-${yyyy}`;
                 case 'DD.MM.YYYY':
                     return `${dd}.${mm}.${yyyy}`;
                 default:
@@ -306,8 +306,8 @@ humhub.module('wiki.Form', function(module, require, $) {
             }
         };
     
-        content = content.replace(/{{\s*today\s+YYYY-DD-MM\s*}}/gi, formatDate('YYYY-DD-MM'));
-        title = title.replace(/{{\s*today\s+YYYY-DD-MM\s*}}/gi, formatDate('YYYY-DD-MM'));
+        content = content.replace(/{{\s*today\s+DD-MM-YYYY\s*}}/gi, formatDate('DD-MM-YYYY'));
+        title = title.replace(/{{\s*today\s+DD-MM-YYYY\s*}}/gi, formatDate('DD-MM-YYYY'));
     
         content = content.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
         title = title.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
