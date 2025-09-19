@@ -322,7 +322,6 @@ class PageController extends BaseController
         $pagination = new \yii\data\Pagination(['totalCount' => $countQuery->count(), 'pageSize' => "20"]);
         $query->offset($pagination->offset)->limit($pagination->limit);
 
-        $revisions = $query->all();
         if ($page->latestRevision->revision_label == null || $hideMinorChanges == false) {
             $revisions = $query->all();
         }
