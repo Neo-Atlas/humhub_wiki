@@ -56,7 +56,7 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
             <div class="alert alert-info mb-3">
                 <strong><?= Yii::t('WikiModule.base', 'Tip:') ?></strong>
                 <?= Yii::t('WikiModule.base', 'You can also use special placeholders like {today1}, {today2}, or {author}.', [
-                    'today1' => '<code>{{today DD-MM-YYY}}</code>',
+                    'today1' => '<code>{{today YYYY-MM-DD}}</code>',
                     'today2' => '<code>{{today DD.MM.YYYY}}</code>',
                     'author' => '<code>{{author}}</code>',
                 ]) ?>
