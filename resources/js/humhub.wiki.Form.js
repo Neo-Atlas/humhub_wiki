@@ -4,7 +4,6 @@ humhub.module('wiki.Form', function(module, require, $) {
     var additions = require('ui.additions');
     var client = require('client');
     var modal = require('ui.modal');
-    var translation = humhub.config.wiki.text;
 
     var editPollingInterval = 5000;
     var editPollingTimer = null;
@@ -319,6 +318,7 @@ humhub.module('wiki.Form', function(module, require, $) {
     
 
     Form.prototype.addPlaceholder = function() {
+        var translation = humhub.config.wiki.text;
         const placeholderFormHtml = `<form id="newPlaceholderForm">
                                     <div class="form-group">
                                         <label>`+ translation.name + ` *</label>
