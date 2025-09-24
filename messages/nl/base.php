@@ -1,5 +1,5 @@
 <?php
-return array (
+return [
   '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '({n,plural,=1{+1 subpagina}other{+{count} subpaginas}})',
   '<strong>Confirm</strong> page reverting' => '<strong>Bevestig</strong> het terugzetten van de pagina',
   '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '<strong>Waarschuwing!</strong><br><br>Een andere gebruiker heeft deze pagina bijgewerkt nadat u deze hebt veranderd. Bevestig dat u de andere wijzigingen wilt overschrijven.<br>:linkToCompare',
@@ -78,11 +78,14 @@ return array (
   'There are no entries yet :(' => 'Er zijn nog geen gegevens :(',
   'This field only allows a maximum 1 page.' => 'Dit veld staat maximaal 1 pagina toe.',
   'This page is empty.' => 'Deze pagina is leeg.',
+  'Whenever someone edits a wiki page.' => 'Wanneer iemand een wikipagina bewerkt.',
   'Wiki' => 'Wiki',
   'Wiki page' => 'Wikipagina',
+  'Wiki page content ID' => 'Wikipagina-inhouds-ID',
+  'Wiki pages' => 'Wikipagina\'s',
   'Your current version' => 'Uw huidige versie',
   'by' => 'door',
   'last update {dateTime}' => 'laatste wijziging {dateTime}',
   'show changes' => 'wijzigingen tonen',
   '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} heeft de wiki-pagina "{wikiPageTitle}" bewerkt.',
-);
+];

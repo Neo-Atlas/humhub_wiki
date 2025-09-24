@@ -1,5 +1,5 @@
 <?php
-return array (
+return [
   '({n,plural,=1{+1 subpage}other{+{count} subpages}})' => '({n,plural,=1{+1 sous-page}other{+{count} sous-pages}})',
   '<strong>Confirm</strong> page reverting' => '<strong>Confirmer</strong> le retour à une version précédente',
   '<strong>Warning!</strong><br><br>Another user has updated this page since you have started editing it. Please confirm that you want to overwrite those changes.<br>:linkToCompare' => '<strong>Attention !</strong><br><br>Un autre utilisateur ou une autre utilisatrice a mis cette page à jour depuis que vous avez commencé à la modifier. Veuillez confirmer que vous souhaitez écraser ses modifications.<br>:linkToCompare',
@@ -78,11 +78,14 @@ return array (
   'There are no entries yet :(' => 'Il n’y a encore aucune entrée :(',
   'This field only allows a maximum 1 page.' => 'Ce champ n’autorise qu’une seule page.',
   'This page is empty.' => 'Cette page est vide.',
+  'Whenever someone edits a wiki page.' => 'Lorsque quelqu’un modifie une page de wiki.',
   'Wiki' => 'Wiki',
   'Wiki page' => 'Page Wiki',
+  'Wiki page content ID' => 'ID de contenu de la page de wiki',
+  'Wiki pages' => 'Pages de wiki',
   'Your current version' => 'Votre version actuelle',
   'by' => 'par',
   'last update {dateTime}' => 'dernière mise à jour {dateTime}',
   'show changes' => 'afficher les modifications',
   '{userName} edited the Wiki page "{wikiPageTitle}".' => '{userName} a modifié la page "{wikiPageTitle}" du wiki.',
-);
+];
