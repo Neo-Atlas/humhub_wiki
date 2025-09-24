@@ -56,7 +56,7 @@ Assets::register($this);
 
             <?= Modal::widget([
                 'id' => 'revisionLabelModal',
-                'header' => Yii::t('WikiModule.base', '<strong>Do you want to save as a new Revision</strong>'),
+                'header' => Yii::t('WikiModule.base', '<strong>Do you want to save the page as a new Revision</strong>'),
                 'body' => '<div id="placeholderFormContainer">
                     <strong>'.Yii::t('WikiModule.base', 'Tip:').'</strong>
                     '. Yii::t('WikiModule.base', 'The revision should be increased in the event of major or far-reaching changes.') .'
