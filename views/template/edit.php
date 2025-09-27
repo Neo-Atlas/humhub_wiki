@@ -9,9 +9,6 @@ use humhub\modules\wiki\assets\Assets;
 use humhub\widgets\Modal;
 
 
-/** @var $model \humhub\modules\wiki\models\WikiTemplate */
-Assets::register($this);
-
 $this->registerJSConfig([
     'wiki' => [
         'text' => [
@@ -26,6 +23,9 @@ $this->registerJSConfig([
         ]
     ]
 ]);
+
+/** @var $model \humhub\modules\wiki\models\WikiTemplate */
+Assets::register($this);
 
 $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template') : Yii::t('WikiModule.base', 'Edit Template');
 ?>
@@ -56,7 +56,7 @@ $this->title = $model->isNewRecord ? Yii::t('WikiModule.base', 'Create Template'
             <div class="alert alert-info mb-3">
                 <strong><?= Yii::t('WikiModule.base', 'Tip:') ?></strong>
                 <?= Yii::t('WikiModule.base', 'You can also use special placeholders like {today1}, {today2}, or {author}.', [
-                    'today1' => '<code>{{today YYYY-DD-MM}}</code>',
+                    'today1' => '<code>{{today YYYY-MM-DD}}</code>',
                     'today2' => '<code>{{today DD.MM.YYYY}}</code>',
                     'author' => '<code>{{author}}</code>',
                 ]) ?>

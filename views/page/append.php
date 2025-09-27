@@ -7,6 +7,7 @@ use humhub\modules\wiki\helpers\Url;
 use humhub\modules\wiki\widgets\WikiEditor;
 use humhub\modules\wiki\assets\Assets;
 use humhub\widgets\Modal;
+use humhub\modules\wiki\widgets\WikiLinkModal;
 
 
 /** @var $model \humhub\modules\wiki\models\WikiTemplate */
@@ -48,3 +49,5 @@ Assets::register($this);
         <?php ActiveForm::end(); ?>
     </div>
 </div>
+
+<?= WikiLinkModal::widget(['contentContainer' => $contentContainer]) ?>
