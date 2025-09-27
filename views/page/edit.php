@@ -54,6 +54,23 @@ Assets::register($this);
                 'footer' => false
             ]); ?>
 
+            <?= Modal::widget([
+                'id' => 'revisionLabelModal',
+                'header' => Yii::t('WikiModule.base', '<strong>Do you want to save the page as a new Revision</strong>'),
+                'body' => '<div id="placeholderFormContainer">
+                    <strong>'.Yii::t('WikiModule.base', 'Tip:').'</strong>
+                    '. Yii::t('WikiModule.base', 'The revision should be increased in the event of major or far-reaching changes.') .'
+                    
+                </div>',
+                'footer' => Button::defaultType(Yii::t('WikiModule.base', 'Cancel'))
+                                ->action('wiki.Form.revisionLabelNoIncrement')
+                                ->loader(false)
+                            .
+                            Button::primary(Yii::t('WikiModule.base', 'Confirm'))
+                                ->action('wiki.Form.revisionLabelIncrement') // You can define this JS action
+                                ->loader(false)
+            ]); ?>
+
             <div class="wiki-headline">
                 <div class="wiki-headline-top">
                     <?= WikiPath::widget(['page' => $model->page]) ?>
@@ -144,6 +161,10 @@ Assets::register($this);
                     </div>
                 <?php endif; ?>
 
+                <?= $form->field($model, 'revisionLabelEnabled')->checkbox([
+                    'label' => Yii::t('WikiModule.base', 'Enable revision label'),
+                    'disabled' => $model->isDisabledField('revisionLabelEnabled')]); ?>
+
                 <?= $form->field($model->page, 'is_home')->checkbox([
                     'title' => Yii::t('WikiModule.base', 'Overwrite the wiki index start page?'),
                     'disabled' => $model->isDisabledField('is_home'),
@@ -172,12 +193,17 @@ Assets::register($this);
                 <?= $form->endCollapsibleFields(); ?>
 
                 <?= $form->field($model, 'topics')->widget(TopicPicker::class, ['options' => ['disabled' => $model->isDisabledField('topics')]])->label(false) ?>
+                
+                <?php if (!$model->isNewPage() && $model->revisionLabelEnabled): ?>
+                    <?= $form->field($model, 'saveAsNewRevision')->hiddenInput()->label(false); ?>
+                <?php endif ?>
 
                 <hr>
 
                 <?= Button::defaultType(Yii::t('WikiModule.base', 'Cancel'))
-                    ->link($model->page->isNewRecord ? Url::toOverview($model->container) : Url::toWiki($model->page)) ?>
-                <?= Button::save()->submit() ?>
+                    ->link($model->page->isNewRecord ? Url::toOverview($model->container) : Url::toWiki($model->page)) ?>                
+                
+                <?= Button::save()->action('wiki.Form.submit') ?>
             </div>
 
             <?php ActiveForm::end(); ?>
