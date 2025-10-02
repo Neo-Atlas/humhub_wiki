@@ -180,7 +180,7 @@ humhub.module('wiki.Page', function (module, require, $) {
                 const headerText = headerCell.innerText.trim();
                 headerCell.style.cursor = 'pointer';
                 headerCell.addEventListener('click', function () {
-                    const rows = Array.from(table.querySelectorAll('tr')).slice(1); // skip header row
+                    const rows = Array.from(table.querySelectorAll('tr')).slice(1);
                     const isAsc = headerCell.classList.contains('sort-asc');
 
                     rows.sort((a, b) => {
