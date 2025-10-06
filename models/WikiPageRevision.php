@@ -17,6 +17,7 @@ use Yii;
  * @property int $wiki_page_id
  * @property int $user_id
  * @property string $content
+ * @property string|null $revision_label
  *
  * @property-read WikiPage $page
  */

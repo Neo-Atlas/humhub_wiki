@@ -139,11 +139,32 @@ humhub.module('wiki.Form', function(module, require, $) {
     }
 
     Form.submit = function () {
+        if ($('#pageeditform-saveasnewrevision').length > 0) {
+            if ($('#pageeditform-revisionlabelenabled').is(':checked')) {
+                $('#revisionLabelModal').modal('show');
+            }
+        }
+        else {
+            saveForm();
+        }
+    };
+
+    Form.revisionLabelIncrement = function() {
+        $('#pageeditform-saveasnewrevision').val(1);
+        saveForm();
+    }
+
+    Form.revisionLabelNoIncrement = function() {
+        $('#pageeditform-saveasnewrevision').val(0);
+        saveForm();
+    }
+
+    function saveForm() {
         if (editPollingTimer) {
             clearInterval(editPollingTimer);
         }
         $('form[data-ui-widget="wiki.Form"]').submit();
-    };
+    }
 
     function pollTimerEditingStatus() {
         if (document.querySelector('[data-url-editing-timer-update]') == null) {
