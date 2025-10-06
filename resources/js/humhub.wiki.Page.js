@@ -20,6 +20,7 @@ humhub.module('wiki.Page', function (module, require, $) {
             that.buildIndex();
             that.initAnchor();
             that.initHeaderEditIcons();
+            that.buildSortableTable();
         });
     };
 
@@ -169,6 +170,44 @@ humhub.module('wiki.Page', function (module, require, $) {
             }
         }, 100);
     }
+
+    Page.prototype.buildSortableTable = function () {
+        document.querySelectorAll('.wiki-page-body table').forEach(function(table) {
+            const firstRow = table.querySelector('tr');
+            if (firstRow == null) return;
+            const ths = firstRow.querySelectorAll('th');
+            ths.forEach((headerCell, colIndex) => {
+                const headerText = headerCell.innerText.trim();
+                headerCell.style.cursor = 'pointer';
+                headerCell.addEventListener('click', function () {
+                    const rows = Array.from(table.querySelectorAll('tr')).slice(1);
+                    const isAsc = headerCell.classList.contains('sort-asc');
+
+                    rows.sort((a, b) => {
+                        const aText = a.children[colIndex]?.innerText.trim() || '';
+                        const bText = b.children[colIndex]?.innerText.trim() || '';
+
+                        const aNum = parseFloat(aText);
+                        const bNum = parseFloat(bText);
+
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return isAsc ? aNum - bNum : bNum - aNum;
+                        }
+
+                        return isAsc
+                            ? aText.localeCompare(bText)
+                            : bText.localeCompare(aText);
+                    });
+
+                    ths.forEach(th => th.classList.remove('sort-asc', 'sort-desc'));
+                    headerCell.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+
+                    const tbody = table.querySelector('tbody');
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        });
+    };
 
     module.export = Page;
 });
