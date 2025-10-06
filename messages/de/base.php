@@ -142,4 +142,6 @@ return [
     'Confirm' => 'Bestätigen',
     'Show minor changes' => 'Kleine Änderungen anzeigen',
     'Hide minor changes' => 'Kleine Änderungen ausblenden',
+    'Keep current revision' => 'Revision beibehalten',
+    'Increment revision' => 'Revision erhöhen',
 ];

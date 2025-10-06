@@ -62,12 +62,12 @@ Assets::register($this);
                     '. Yii::t('WikiModule.base', 'The revision should be increased in the event of major or far-reaching changes.') .'
                     
                 </div>',
-                'footer' => Button::defaultType(Yii::t('WikiModule.base', 'Cancel'))
+                'footer' => Button::defaultType(Yii::t('WikiModule.base', 'Keep current revision'))
                                 ->action('wiki.Form.revisionLabelNoIncrement')
                                 ->loader(false)
                             .
-                            Button::primary(Yii::t('WikiModule.base', 'Confirm'))
-                                ->action('wiki.Form.revisionLabelIncrement') // You can define this JS action
+                            Button::primary(Yii::t('WikiModule.base', 'Increment revision'))
+                                ->action('wiki.Form.revisionLabelIncrement')
                                 ->loader(false)
             ]); ?>
 
