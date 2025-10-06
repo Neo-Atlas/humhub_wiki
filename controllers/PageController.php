@@ -647,6 +647,7 @@ class PageController extends BaseController
 
         return $this->render('append', [
             'appendForm' => $appendForm,
+            'contentContainer' => $this->contentContainer,
         ]);
     }
 

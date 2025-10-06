@@ -4,7 +4,6 @@ humhub.module('wiki.Form', function(module, require, $) {
     var additions = require('ui.additions');
     var client = require('client');
     var modal = require('ui.modal');
-    var translation = humhub.config.wiki.text;
 
     var editPollingInterval = 5000;
     var editPollingTimer = null;
@@ -297,8 +296,8 @@ humhub.module('wiki.Form', function(module, require, $) {
             const dd = String(now.getDate()).padStart(2, '0');
     
             switch (format) {
-                case 'YYYY-DD-MM':
-                    return `${yyyy}-${dd}-${mm}`;
+                case 'YYYY-MM-DD':
+                    return `${yyyy}-${mm}-${dd}`;
                 case 'DD.MM.YYYY':
                     return `${dd}.${mm}.${yyyy}`;
                 default:
@@ -306,8 +305,8 @@ humhub.module('wiki.Form', function(module, require, $) {
             }
         };
     
-        content = content.replace(/{{\s*today\s+YYYY-DD-MM\s*}}/gi, formatDate('YYYY-DD-MM'));
-        title = title.replace(/{{\s*today\s+YYYY-DD-MM\s*}}/gi, formatDate('YYYY-DD-MM'));
+        content = content.replace(/{{\s*today\s+YYYY-MM-DD\s*}}/gi, formatDate('YYYY-MM-DD'));
+        title = title.replace(/{{\s*today\s+YYYY-MM-DD\s*}}/gi, formatDate('YYYY-MM-DD'));
     
         content = content.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
         title = title.replace(/{{\s*today\s+DD\.MM\.YYYY\s*}}/gi, formatDate('DD.MM.YYYY'));
@@ -319,6 +318,7 @@ humhub.module('wiki.Form', function(module, require, $) {
     
 
     Form.prototype.addPlaceholder = function() {
+        var translation = humhub.config.wiki.text;
         const placeholderFormHtml = `<form id="newPlaceholderForm">
                                     <div class="form-group">
                                         <label>`+ translation.name + ` *</label>
