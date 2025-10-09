@@ -226,7 +226,7 @@ humhub.module('wiki.Page', function (module, require, $) {
                 headerCell.addEventListener('click', sortHandler);
 
                 const savedSort = localStorage.getItem(storageKey);
-                if (savedSort) {
+                if (savedSort != null) {
                     const { column, direction } = JSON.parse(savedSort);
                     if (colIndex === column) {
                         headerCell.classList.add(direction === 'asc' ? 'sort-desc' : 'sort-asc');
@@ -235,7 +235,7 @@ humhub.module('wiki.Page', function (module, require, $) {
                 }
             });
 
-            if (restoreSort) restoreSort();
+            if (restoreSort != null) restoreSort();
         });
     };
 
