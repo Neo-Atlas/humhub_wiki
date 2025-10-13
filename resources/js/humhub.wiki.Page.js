@@ -172,14 +172,21 @@ humhub.module('wiki.Page', function (module, require, $) {
     }
 
     Page.prototype.buildSortableTable = function () {
-        document.querySelectorAll('.wiki-page-body table').forEach(function(table) {
+        const pagePath = window.location.pathname;
+
+        document.querySelectorAll('.wiki-page-body table').forEach(function(table, tableIndex) {
+            const storageKey = `${pagePath}::table-${tableIndex}`;
             const firstRow = table.querySelector('tr');
             if (firstRow == null) return;
+
             const ths = firstRow.querySelectorAll('th');
+
+            let restoreSort = null;
+
             ths.forEach((headerCell, colIndex) => {
-                const headerText = headerCell.innerText.trim();
                 headerCell.style.cursor = 'pointer';
-                headerCell.addEventListener('click', function () {
+
+                const sortHandler = function () {
                     const rows = Array.from(table.querySelectorAll('tr')).slice(1);
                     const isAsc = headerCell.classList.contains('sort-asc');
 
@@ -187,9 +194,11 @@ humhub.module('wiki.Page', function (module, require, $) {
                         const aText = a.children[colIndex]?.innerText.trim() || '';
                         const bText = b.children[colIndex]?.innerText.trim() || '';
 
-                        const aNum = parseFloat(aText);
-                        const bNum = parseFloat(bText);
+                        const aNormalized = aText.replace(',', '.');
+                        const bNormalized = bText.replace(',', '.');
 
+                        const aNum = parseFloat(aNormalized.replace('-', ''));
+                        const bNum = parseFloat(bNormalized.replace('-', ''));
                         if (!isNaN(aNum) && !isNaN(bNum)) {
                             return isAsc ? aNum - bNum : bNum - aNum;
                         }
@@ -199,13 +208,34 @@ humhub.module('wiki.Page', function (module, require, $) {
                             : bText.localeCompare(aText);
                     });
 
+
+
                     ths.forEach(th => th.classList.remove('sort-asc', 'sort-desc'));
                     headerCell.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
 
                     const tbody = table.querySelector('tbody');
                     rows.forEach(row => tbody.appendChild(row));
-                });
+
+                    const sortState = {
+                        column: colIndex,
+                        direction: isAsc ? 'desc' : 'asc'
+                    };
+                    localStorage.setItem(storageKey, JSON.stringify(sortState));
+                };
+
+                headerCell.addEventListener('click', sortHandler);
+
+                const savedSort = localStorage.getItem(storageKey);
+                if (savedSort != null) {
+                    const { column, direction } = JSON.parse(savedSort);
+                    if (colIndex === column) {
+                        headerCell.classList.add(direction === 'asc' ? 'sort-desc' : 'sort-asc');
+                        restoreSort = sortHandler;
+                    }
+                }
             });
+
+            if (restoreSort != null) restoreSort();
         });
     };
 
