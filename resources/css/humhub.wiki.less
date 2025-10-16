@@ -1108,3 +1108,19 @@ ul.wiki-template-list {
 .placeholder-description {
   margin-left: 8px;
 }
+
+.wiki-page-body th p {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.wiki-page-body th.sort-desc::after {
+  content: "▲";
+  font-size: 0.8em;
+}
+
+.wiki-page-body th.sort-asc::after {
+  content: "▼";
+  font-size: 0.8em;
+}
