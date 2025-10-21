@@ -1036,9 +1036,21 @@
   cursor: pointer;
 }
 
+.print-header {
+  display: none;
+}
+
 @media print {
-  .wiki-icon-print, .wiki-menu, .wiki-content-info, .social-controls, .comment-container, .footer-nav, .space-nav, #topbar-first {
+  .wiki-icon-print, .wiki-menu, .wiki-headline-top, .social-controls, .comment-container, .footer-nav, .space-nav, #topbar-first {
     display: none;
+  }
+
+  .print-header {
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+    font-size: 11pt;
+    margin-bottom: 20px;
   }
 
   .layout-content-container .wiki-content {
@@ -1052,11 +1064,17 @@
   #page-content-wrapper {
     padding: 0;
   }
+  
+  .wiki-page-title {
+    font-size: 24pt !important;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
 }
 
 .toggle-numbering, .Button-right-align {
   margin-left: auto;
-  padding-right: 10px;
+  margin-right: 10px;
 }
 
 table.placeholder {

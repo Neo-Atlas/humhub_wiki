@@ -28,6 +28,10 @@ $user = Yii::$app->user->identity;
 $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
 ?>
 
+<div class="print-header">
+    <div class="right"><span id="print-time"><?=date('d/m/Y, H:i')?></span></div>
+</div>
+
 <div class="wiki-headline">
     <div class="wiki-headline-top">
         <?= WikiPath::widget(['page' => $page]) ?>
@@ -54,6 +58,7 @@ $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberi
     <div class="wiki-content-info">
         <small>
             <?= Yii::t('WikiModule.base', 'Created by {author}', ['author' => Html::containerLink($page->content->createdBy)]) . ', ' ?>
+            <?= $revision->revision_label == NULL ? " " : Yii::t('WikiModule.base', '<strong class="revision-info">Revision') . ' ' . $revision->revision_label . '</strong>, ' ?>
             <?= Yii::t('WikiModule.base', 'last update {dateTime}', ['dateTime' => TimeAgo::widget(['timestamp' => $page->content->updated_at])]) ?>
             <?= Link::to('(' . Yii::t('WikiModule.base', 'History') . ')', Url::toWikiHistory($page)) ?>
         </small>

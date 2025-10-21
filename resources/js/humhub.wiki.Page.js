@@ -24,7 +24,20 @@ humhub.module('wiki.Page', function (module, require, $) {
         });
     };
 
+    function updatePrintTime() {
+        const now = new Date();
+        const formatted = now.toLocaleString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        document.getElementById('print-time').textContent = formatted;
+    }
+
     Page.print = function () {
+        updatePrintTime();
         window.print();
     }
 
