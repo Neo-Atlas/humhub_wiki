@@ -28,6 +28,10 @@ $user = Yii::$app->user->identity;
 $numberingEnabled = $module->settings->contentContainer($user)->get('wikiNumberingEnabled');
 ?>
 
+<div class="print-header">
+    <div class="right"><span id="print-time"><?=date('d/m/Y, H:i')?></span></div>
+</div>
+
 <div class="wiki-headline">
     <div class="wiki-headline-top">
         <?= WikiPath::widget(['page' => $page]) ?>
